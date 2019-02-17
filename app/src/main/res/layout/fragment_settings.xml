@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:text="Origen de busqueda"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/group_source"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+            <RadioButton
+                android:id="@+id/radio_my_books"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mi biblioteca" />
+
+            <RadioButton
+                android:id="@+id/radio_google"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Repositorio de google" />
+
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:text="Campos de busqueda por texto"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
+
+            <CheckBox
+                android:id="@+id/check_isbn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="ISBN (Default)"/>
+
+            <CheckBox
+                android:id="@+id/check_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Titulo"/>
+
+            <CheckBox
+                android:id="@+id/check_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Autor"/>
+
+            <CheckBox
+                android:id="@+id/check_publisher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Editorial"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:gravity="center_vertical"
+            android:text="Ordenar mis libros"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/group_sort"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+            <RadioButton
+                android:id="@+id/radio_title_az"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Por titulo (a-z)" />
+
+            <RadioButton
+                android:id="@+id/radio_title_za"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Por titulo (z-a)" />
+
+            <RadioButton
+                android:id="@+id/radio_news"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Los mas recientes primero" />
+
+            <RadioButton
+                android:id="@+id/radio_older"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Los mas viejos primero" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</ScrollView>

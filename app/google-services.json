@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "635061810574",
+    "firebase_url": "https://regreso-a-itaca.firebaseio.com",
+    "project_id": "regreso-a-itaca",
+    "storage_bucket": "regreso-a-itaca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635061810574:android:2c83d116b75ff985",
+        "android_client_info": {
+          "package_name": "com.regresoa.itaca"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635061810574-h8dto3gcebops91d4f8slrim36vru924.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVCg7MPUVL66e8zBUGONnB6oyJhMs7KJI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
