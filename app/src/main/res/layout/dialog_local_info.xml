@@ -14,7 +14,7 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:text="Informacion Local"/>
+        android:text="@string/dialog_label_title"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
                 android:textColor="@android:color/black"
                 android:layout_weight="1"
                 android:textSize="16sp"
-                android:text="Cantidad"/>
+                android:text="@string/dialog_hint_quantity"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                android:hint="precio"/>
+                android:hint="@string/dialog_hint_price"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
-                android:hint="notas"/>
+                android:hint="@string/dialog_hint_notes"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -103,6 +103,6 @@
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
         android:textColor="@android:color/white"
-        android:text="Guardar"/>
+        android:text="@string/dialog_label_save"/>
 
 </LinearLayout>
