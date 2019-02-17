@@ -53,7 +53,7 @@ class MyLibraryFragment : Fragment(), PermissionListener, SearchView.OnQueryText
                 .withMessage("El permiso de camara es necesario para utilizar el escaner de ISBN")
                 .withButtonText("Aceptar")
                 .withIcon(R.drawable.ic_action_info)
-                .build()
+                .build()!!
         return inflater.inflate(R.layout.fragment_mylibrary, container, false)
     }
 

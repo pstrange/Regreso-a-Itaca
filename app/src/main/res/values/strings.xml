@@ -3,8 +3,10 @@
     <string name="action_search">Buscar</string>
     <string name="action_scan">Scaner</string>
     <string name="action_add">Agregar</string>
+    <string name="action_save">Guardar</string>
     <string name="action_settings">Configuraciones</string>
     <string name="action_info">Información</string>
+    <string name="action_edit">Editar</string>
     <string name="action_delete">Eliminar</string>
 
     <string name="mylibrary_menu">Mi biblioteca</string>

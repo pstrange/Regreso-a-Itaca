@@ -1,5 +1,6 @@
 package com.regresoa.itaca.view.books
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -11,10 +12,12 @@ import kotlinx.android.synthetic.main.activity_new_book.*
 import java.security.MessageDigest
 import java.util.*
 import android.content.DialogInterface
+import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.text.InputType
 import android.widget.EditText
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.regresoa.itaca.model.entities.*
 
 
@@ -24,10 +27,12 @@ import com.regresoa.itaca.model.entities.*
 class NewBookActivity : AppCompatActivity() {
 
     private lateinit var book: Book
+    private var imageLinks: ImageLinks? = null
     private val viewModel: BooksViewModel = BooksViewModel(BooksRepository())
-    private var imageUrl = ""
 
     companion object {
+        val EDIT_BOOK = "EDIT_BOOK"
+        val UPDATE_BOOK = "UPDATE_BOOK"
         val RESULT_ADDED = 11
     }
 
@@ -40,16 +45,24 @@ class NewBookActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
 
-        val hashKey = hash()
-        book = Book(hashKey, hashKey)
+        if(intent.hasExtra(EDIT_BOOK)) {
+            book = Gson().fromJson(intent.getStringExtra(EDIT_BOOK), Book::class.java)
+            imageLinks = book.volumeInfo?.imageLinks
+            fillBook(book)
+        }else{
+            val hashKey = hash()
+            book = Book(hashKey, hashKey)
+        }
+
         image_cover.setOnClickListener {
             showInputDialog()
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_book_remote, menu)
+        menuInflater.inflate(
+                if(intent.hasExtra(EDIT_BOOK)) R.menu.menu_book_edit
+                else R.menu.menu_book_remote, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -62,6 +75,7 @@ class NewBookActivity : AppCompatActivity() {
                 if(hasValidInfo()){
                     showDialogInfo(object : LocalInfoDialog.OnLocalInfoEdit {
                         override fun onLocalInfoSave(localInfo: LocalInfo) {
+                            book.creationDate = Calendar.getInstance().timeInMillis
                             book.localInfo = localInfo
                             viewModel.addBookToMyLibrary(book)
                             setResult(RESULT_ADDED)
@@ -70,14 +84,40 @@ class NewBookActivity : AppCompatActivity() {
                     })
                 }
             }
+            R.id.action_save -> {
+                if(hasValidInfo()){
+                    val resultIntent = Intent()
+                    resultIntent.putExtra(UPDATE_BOOK, Gson().toJson(book))
+                    setResult(Activity.RESULT_OK, resultIntent)
+                    finish()
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun fillBook(book: Book?){
+        book?.let {
+            Glide.with(this)
+                    .load(it.volumeInfo?.imageLinks?.thumbnail)
+                    .into(image_cover)
+
+            edit_title.setText(it.volumeInfo?.title)
+            edit_authors.setText(it.volumeInfo?.sAuthors)
+            edit_publisher.setText(it.volumeInfo?.publisher)
+            edit_publishing_date.setText(it.volumeInfo?.publishedDate)
+            edit_categories.setText(it.volumeInfo?.sCategories)
+            edit_description.setText(it.volumeInfo?.description)
+            edit_identifiers.setText(it.volumeInfo?.sIdentifiers)
+            edit_laguage.setText(it.volumeInfo?.language)
+            edit_pages.setText(it.volumeInfo?.pageCount.toString())
+        }
     }
 
     private fun hasValidInfo(): Boolean{
         val volumeInfo = VolumeInfo()
 
-        volumeInfo.imageLinks = ImageLinks(imageUrl, imageUrl)
+        volumeInfo.imageLinks = imageLinks
 
         if(edit_title.text.toString().isNotEmpty()) {
             volumeInfo.title = edit_title.text.toString()
@@ -126,7 +166,6 @@ class NewBookActivity : AppCompatActivity() {
             volumeInfo.pageCount = edit_pages.text.toString().toInt()
         }
 
-        book.creationDate = Calendar.getInstance().timeInMillis
         book.volumeInfo = volumeInfo
         return true
     }
@@ -138,11 +177,12 @@ class NewBookActivity : AppCompatActivity() {
         val input = EditText(this)
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.inputType = InputType.TYPE_TEXT_VARIATION_URI
-        input.setText(imageUrl)
+        input.setText(imageLinks?.thumbnail)
         builder.setView(input)
         // Set up the buttons
         builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-            imageUrl = input.text.toString()
+            val imageUrl = input.text.toString()
+            imageLinks = ImageLinks(imageUrl, imageUrl)
             Glide.with(this)
                     .load(imageUrl)
                     .into(image_cover)
