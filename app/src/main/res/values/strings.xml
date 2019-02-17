@@ -4,13 +4,13 @@
     <string name="action_scan">Scaner</string>
     <string name="action_add">Agregar</string>
     <string name="action_save">Guardar</string>
-    <string name="action_settings">Configuraciones</string>
+    <string name="action_settings">Configuración</string>
     <string name="action_info">Información</string>
     <string name="action_edit">Editar</string>
     <string name="action_delete">Eliminar</string>
 
     <string name="mylibrary_menu">Mi biblioteca</string>
-    <string name="settings_menu">Configuraciones</string>
+    <string name="settings_menu">Configuración</string>
 
     <string name="book_error_required_field">Este campo es obligatorio</string>
     <string name="book_label_noinfo">Sin información</string>
@@ -18,47 +18,47 @@
     <string name="book_label_authors">Autores</string>
     <string name="book_label_publisher">Editorial</string>
     <string name="book_label_publishing_date">Fecha</string>
-    <string name="book_label_categories">Categorias</string>
-    <string name="book_label_description">Descripcion</string>
+    <string name="book_label_categories">Categorías</string>
+    <string name="book_label_description">Descripción</string>
     <string name="book_label_identifiers">Identificadores</string>
     <string name="book_label_language">Idioma</string>
-    <string name="book_label_pages">Paginas</string>
+    <string name="book_label_pages">Páginas</string>
 
     <string name="dialog_url">URL de imagen</string>
-    <string name="dialog_accept">URL de imagen</string>
-    <string name="dialog_cancel">URL de imagen</string>
+    <string name="dialog_accept">Aceptar</string>
+    <string name="dialog_cancel">Cancelar</string>
 
-    <string name="permission_title">Permiso de camara</string>
-    <string name="permission_message">El permiso de camara es necesario para utilizar el escaner de ISBN</string>
+    <string name="permission_title">Permiso de cámara</string>
+    <string name="permission_message">El permiso de cámara es necesario para utilizar el escaner de ISBN</string>
     <string name="permission_accept">Aceptar</string>
 
-    <string name="book_hint_title">Titulo</string>
-    <string name="book_hint_authors">Autores (Separados por coma)</string>
+    <string name="book_hint_title">Título</string>
+    <string name="book_hint_authors">Autor(es) (Separados por coma)</string>
     <string name="book_hint_publisher">Editorial</string>
     <string name="book_hint_publishing_date">Fecha (ej. aaaa-mm-dd)</string>
-    <string name="book_hint_categories">Categorias</string>
-    <string name="book_hint_description">Descripcion</string>
+    <string name="book_hint_categories">Categorías</string>
+    <string name="book_hint_description">Descripción</string>
     <string name="book_hint_identifiers">ISBN (Separados por coma)</string>
     <string name="book_hint_language">Idioma</string>
-    <string name="book_hint_pages">Paginas</string>
+    <string name="book_hint_pages">Páginas</string>
 
     <string name="dialog_hint_quantity">Cantidad</string>
     <string name="dialog_hint_price">Precio</string>
     <string name="dialog_hint_notes">Notas</string>
-    <string name="dialog_label_title">Informacion local</string>
+    <string name="dialog_label_title">Información local</string>
     <string name="dialog_label_save">Guardar</string>
 
-    <string name="settings_title_search">Origen de busqueda</string>
+    <string name="settings_title_search">Origen de búsqueda</string>
     <string name="settings_search_library">Mi biblioteca</string>
     <string name="settings_search_google">Repositorio de google</string>
-    <string name="settings_title_fields">Campos de busqueda por texto</string>
+    <string name="settings_title_fields">Campos de búsqueda por texto</string>
     <string name="settings_fields_isbn">ISBN (Default)</string>
-    <string name="settings_fields_title">Titulo</string>
+    <string name="settings_fields_title">Título</string>
     <string name="settings_fields_author">Autor(es)</string>
     <string name="settings_fields_publisher">Editorial</string>
     <string name="settings_title_sort">Ordenar mis libros</string>
-    <string name="settings_sort_title_az">Por titulo (a-z)</string>
-    <string name="settings_sort_title_za">Por titulo (z-a)</string>
-    <string name="settings_sort_new">Los mas recientes primer</string>
-    <string name="settings_sort_old">Los mas viejos primero</string>
+    <string name="settings_sort_title_az">Por título (a-z)</string>
+    <string name="settings_sort_title_za">Por título (z-a)</string>
+    <string name="settings_sort_new">Los más recientes primer</string>
+    <string name="settings_sort_old">Los más viejos primero</string>
 </resources>
