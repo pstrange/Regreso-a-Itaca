@@ -1,5 +1,6 @@
 package com.regresoa.itaca.view.books
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -11,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_new_book.*
 import java.security.MessageDigest
 import java.util.*
 import android.content.DialogInterface
+import android.content.Intent
 import android.support.v7.app.AlertDialog
 import android.text.InputType
 import android.widget.EditText
@@ -53,7 +55,9 @@ class NewBookActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_book_remote, menu)
+        menuInflater.inflate(
+                if(intent.hasExtra(EDIT_BOOK)) R.menu.menu_book_edit
+                else R.menu.menu_book_remote, menu)
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -72,6 +76,14 @@ class NewBookActivity : AppCompatActivity() {
                             finish()
                         }
                     })
+                }
+            }
+            R.id.action_save -> {
+                if(hasValidInfo()){
+                    val resultIntent = Intent()
+                    resultIntent.putExtra(EDIT_BOOK, Gson().toJson(book))
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
                 }
             }
         }
