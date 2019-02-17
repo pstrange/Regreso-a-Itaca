@@ -18,7 +18,7 @@ class VolumeInfo(
         @SerializedName("imageLinks") var imageLinks: ImageLinks? = null,
         @SerializedName("language") var language: String = ""
 ){
-    @set:Exclude
+    @set:Exclude @get: Exclude
     var sIdentifiers : String
             get(){
                 val builder = StringBuilder()
@@ -29,7 +29,7 @@ class VolumeInfo(
                 sIdentifiers = value
             }
 
-    @set:Exclude
+    @set:Exclude @get: Exclude
     var sAuthors : String
         get(){
             val builder = StringBuilder()

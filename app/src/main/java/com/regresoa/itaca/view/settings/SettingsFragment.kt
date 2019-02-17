@@ -42,42 +42,42 @@ class SettingsFragment : Fragment(){
         check_author.isChecked = AppPreferences.byAuthor
         check_publisher.isChecked = AppPreferences.byPublisher
 
-        radio_my_books.setOnCheckedChangeListener { buttonView, isChecked ->
+        radio_my_books.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences.sourceMyBooks = isChecked
         }
 
-        radio_title_az.setOnCheckedChangeListener { buttonView, isChecked ->
+        radio_title_az.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences.sortByTitleAZ = isChecked
         }
 
-        radio_title_za.setOnCheckedChangeListener { buttonView, isChecked ->
+        radio_title_za.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences.sortByTitleZA = isChecked
         }
 
-        radio_news.setOnCheckedChangeListener { buttonView, isChecked ->
+        radio_news.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences.sortByNew = isChecked
         }
 
-        radio_older.setOnCheckedChangeListener { buttonView, isChecked ->
+        radio_older.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences.sortByOld = isChecked
         }
 
-        check_isbn.setOnCheckedChangeListener { buttonView, isChecked ->
+        check_isbn.setOnCheckedChangeListener { _, isChecked ->
             if(!isChecked)
                 check_isbn.isChecked = true
         }
 
-        check_title.setOnCheckedChangeListener { buttonView, isChecked ->
+        check_title.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences.byTitle = isChecked
             validatesEmptySelection(check_title)
         }
 
-        check_author.setOnCheckedChangeListener { buttonView, isChecked ->
+        check_author.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences.byAuthor = isChecked
             validatesEmptySelection(check_author)
         }
 
-        check_publisher.setOnCheckedChangeListener { buttonView, isChecked ->
+        check_publisher.setOnCheckedChangeListener { _, isChecked ->
             AppPreferences.byPublisher = isChecked
             validatesEmptySelection(check_publisher)
         }
