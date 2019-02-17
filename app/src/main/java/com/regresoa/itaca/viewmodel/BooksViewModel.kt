@@ -7,7 +7,6 @@ import android.util.Log
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.regresoa.itaca.model.entities.Book
 import com.regresoa.itaca.model.entities.SearchResult
 import com.regresoa.itaca.model.repositories.BooksRepository
@@ -22,8 +21,6 @@ class BooksViewModel(private var repository: BooksRepository) : ViewModel() {
     val isLoading = MutableLiveData<Boolean>()
     val error = MutableLiveData<String>()
     val searchResults = MutableLiveData<SearchResult>()
-    val myBooks = MutableLiveData<Book>()
-    val removedBook = MutableLiveData<Book>()
 
     fun searchISBN(isbn: String){
         repository.searchISBN(isbn)
@@ -44,11 +41,6 @@ class BooksViewModel(private var repository: BooksRepository) : ViewModel() {
     fun getMyBooks(listener: ChildEvents){
         isLoading.postValue(true)
         repository.getMyBooks().addChildEventListener(listener)
-    }
-
-    fun searchMyBooks(value: String, listener: ChildEvents){
-        isLoading.postValue(true)
-        repository.getMyBooks().orderByChild("volumeInfo/industryIdentifiers/identifier").startAt(value).addChildEventListener(listener)
     }
 
     fun removeMyBooksListener(listener: ChildEvents){

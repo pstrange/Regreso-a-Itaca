@@ -11,4 +11,24 @@
 
     <string name="mylibrary_menu">Mi biblioteca</string>
     <string name="settings_menu">Configuraciones</string>
+
+    <string name="book_error_required_field">Este campo es obligatorio</string>
+    <string name="book_label_noinfo">Sin información</string>
+    <string name="book_label_title">Titulo</string>
+    <string name="book_label_authors">Autores</string>
+    <string name="book_label_publisher">Editorial</string>
+    <string name="book_label_publishing_date">Fecha</string>
+    <string name="book_label_categories">Categorias</string>
+    <string name="book_label_description">Descripcion</string>
+    <string name="book_label_identifiers">Identificadores</string>
+    <string name="book_label_language">Lenguaje</string>
+    <string name="book_label_pages">Paginas</string>
+
+    <string name="dialog_url">URL de imagen</string>
+    <string name="dialog_accept">URL de imagen</string>
+    <string name="dialog_cancel">URL de imagen</string>
+
+    <string name="permission_title">Permiso de camara</string>
+    <string name="permission_message">El permiso de camara es necesario para utilizar el escaner de ISBN</string>
+    <string name="permission_accept">Aceptar</string>
 </resources>
