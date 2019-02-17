@@ -22,7 +22,8 @@ class VolumeInfo(
     var sIdentifiers : String
             get(){
                 val builder = StringBuilder()
-                industryIdentifiers?.map { it.identifier }?.forEach { builder.append(it+" ") }
+                industryIdentifiers?.map { it.identifier }?.forEach {
+                    builder.append(if(builder.isEmpty()) it else ", "+it) }
                 return builder.toString()
             }
             set(value) {
@@ -33,10 +34,23 @@ class VolumeInfo(
     var sAuthors : String
         get(){
             val builder = StringBuilder()
-            authors?.forEach { builder.append(it+" ") }
+            authors?.forEach {
+                builder.append(if(builder.isEmpty()) it else ", "+it) }
             return builder.toString()
         }
         set(value) {
             sAuthors = value
+        }
+
+    @set:Exclude @get: Exclude
+    var sCategories : String
+        get(){
+            val builder = StringBuilder()
+            categories?.forEach {
+                builder.append(if(builder.isEmpty()) it else ", "+it) }
+            return builder.toString()
+        }
+        set(value) {
+            sCategories = value
         }
 }

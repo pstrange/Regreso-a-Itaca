@@ -15,6 +15,7 @@ import android.support.v7.app.AlertDialog
 import android.text.InputType
 import android.widget.EditText
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.regresoa.itaca.model.entities.*
 
 
@@ -28,6 +29,7 @@ class NewBookActivity : AppCompatActivity() {
     private var imageUrl = ""
 
     companion object {
+        val EDIT_BOOK = "EDIT_BOOK"
         val RESULT_ADDED = 11
     }
 
@@ -46,6 +48,8 @@ class NewBookActivity : AppCompatActivity() {
             showInputDialog()
         }
 
+        if(intent.hasExtra(EDIT_BOOK))
+            fillBook(Gson().fromJson(intent.getStringExtra(EDIT_BOOK), Book::class.java))
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -72,6 +76,24 @@ class NewBookActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun fillBook(book: Book?){
+        book?.let {
+            Glide.with(this)
+                    .load(it.volumeInfo?.imageLinks?.thumbnail)
+                    .into(image_cover)
+
+            edit_title.setText(it.volumeInfo?.title)
+            edit_authors.setText(it.volumeInfo?.sAuthors)
+            edit_publisher.setText(it.volumeInfo?.publisher)
+            edit_publishing_date.setText(it.volumeInfo?.publishedDate)
+            edit_categories.setText(it.volumeInfo?.sCategories)
+            edit_description.setText(it.volumeInfo?.description)
+            edit_identifiers.setText(it.volumeInfo?.sIdentifiers)
+            edit_laguage.setText(it.volumeInfo?.language)
+            edit_pages.setText(it.volumeInfo?.pageCount.toString())
+        }
     }
 
     private fun hasValidInfo(): Boolean{
