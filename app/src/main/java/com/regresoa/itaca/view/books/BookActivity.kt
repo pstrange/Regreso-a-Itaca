@@ -141,9 +141,10 @@ class BookActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 1980 && resultCode == Activity.RESULT_OK){
             container_extra.removeAllViews()
-            book = Gson().fromJson(data?.getStringExtra(NewBookActivity.EDIT_BOOK), Book::class.java)
+            book = Gson().fromJson(data?.getStringExtra(NewBookActivity.UPDATE_BOOK), Book::class.java)
             fillBook(book)
             viewModel.updateBookFromMyLibrary(book)
+            setResult(RESULT_ADDED)
         }
     }
 
