@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
-            android:text="Origen de busqueda"
+            android:text="@string/settings_title_search"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -29,13 +29,13 @@
                 android:id="@+id/radio_my_books"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Mi biblioteca" />
+                android:text="@string/settings_search_library" />
 
             <RadioButton
                 android:id="@+id/radio_google"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Repositorio de google" />
+                android:text="@string/settings_search_google" />
 
 
         </RadioGroup>
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
-            android:text="Campos de busqueda por texto"
+            android:text="@string/settings_title_fields"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -59,25 +59,25 @@
                 android:id="@+id/check_isbn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ISBN (Default)"/>
+                android:text="@string/settings_fields_isbn"/>
 
             <CheckBox
                 android:id="@+id/check_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Titulo"/>
+                android:text="@string/settings_fields_title"/>
 
             <CheckBox
                 android:id="@+id/check_author"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Autor"/>
+                android:text="@string/settings_fields_author"/>
 
             <CheckBox
                 android:id="@+id/check_publisher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Editorial"/>
+                android:text="@string/settings_fields_publisher"/>
 
         </LinearLayout>
 
@@ -85,7 +85,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
-            android:text="Ordenar mis libros"
+            android:text="@string/settings_title_sort"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -100,25 +100,25 @@
                 android:id="@+id/radio_title_az"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por titulo (a-z)" />
+                android:text="@string/settings_sort_title_az" />
 
             <RadioButton
                 android:id="@+id/radio_title_za"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Por titulo (z-a)" />
+                android:text="@string/settings_sort_title_za" />
 
             <RadioButton
                 android:id="@+id/radio_news"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Los mas recientes primero" />
+                android:text="@string/settings_sort_new" />
 
             <RadioButton
                 android:id="@+id/radio_older"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Los mas viejos primero" />
+                android:text="@string/settings_sort_old" />
 
         </RadioGroup>
 

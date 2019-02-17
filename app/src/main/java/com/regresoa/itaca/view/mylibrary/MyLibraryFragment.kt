@@ -2,9 +2,7 @@ package com.regresoa.itaca.view.mylibrary
 
 import android.Manifest
 import android.app.Activity
-import android.app.SearchManager
 import android.arch.lifecycle.Observer
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -36,6 +34,9 @@ import java.util.*
 class MyLibraryFragment : Fragment(), PermissionListener, SearchView.OnQueryTextListener {
 
     companion object {
+        val REQUEST_CAM = 1985
+        val REQUEST_BOOK = 1984
+
         fun newInstance(): MyLibraryFragment {
             return MyLibraryFragment()
         }
@@ -49,9 +50,9 @@ class MyLibraryFragment : Fragment(), PermissionListener, SearchView.OnQueryText
         setHasOptionsMenu(true)
         dialogPermissionListener = DialogOnDeniedPermissionListener.Builder
                 .withContext(activity)
-                .withTitle("Permiso de camara")
-                .withMessage("El permiso de camara es necesario para utilizar el escaner de ISBN")
-                .withButtonText("Aceptar")
+                .withTitle(getString(R.string.permission_title))
+                .withMessage(getString(R.string.permission_message))
+                .withButtonText(getString(R.string.permission_accept))
                 .withIcon(R.drawable.ic_action_info)
                 .build()!!
         return inflater.inflate(R.layout.fragment_mylibrary, container, false)
@@ -79,7 +80,7 @@ class MyLibraryFragment : Fragment(), PermissionListener, SearchView.OnQueryText
         override fun onClickItem(book: Book?) {
             val intent = Intent(activity, BookActivity::class.java)
             intent.putExtra(BookActivity.EXTRA_BOOK, Gson().toJson(book))
-            startActivityForResult(intent, 1984)
+            startActivityForResult(intent, REQUEST_BOOK)
         }
     }
 
@@ -134,7 +135,7 @@ class MyLibraryFragment : Fragment(), PermissionListener, SearchView.OnQueryText
             }
             R.id.action_add -> {
                 val intent = Intent(activity, NewBookActivity::class.java)
-                startActivityForResult(intent, 1984)
+                startActivityForResult(intent, REQUEST_BOOK)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -142,7 +143,7 @@ class MyLibraryFragment : Fragment(), PermissionListener, SearchView.OnQueryText
 
     override fun onPermissionGranted(response: PermissionGrantedResponse?) {
         val intent = Intent(activity, ScannerActivity::class.java)
-        startActivityForResult(intent, 1985)
+        startActivityForResult(intent, REQUEST_CAM)
     }
 
     override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
@@ -155,14 +156,14 @@ class MyLibraryFragment : Fragment(), PermissionListener, SearchView.OnQueryText
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == 1985 && resultCode == Activity.RESULT_OK){
+        if(requestCode == REQUEST_CAM && resultCode == Activity.RESULT_OK){
             if(AppPreferences.sourceMyBooks){
-                adapter.filter(data!!.getStringExtra("ISBN"))
+                adapter.filter(data!!.getStringExtra(ScannerActivity.ISBN))
             }else{
                 viewModel.removeMyBooksListener(listener)
-                viewModel.searchISBN(data!!.getStringExtra("ISBN"))
+                viewModel.searchISBN(data!!.getStringExtra(ScannerActivity.ISBN))
             }
-        }else if(requestCode == 1984 && resultCode == BookActivity.RESULT_ADDED){
+        }else if(requestCode == REQUEST_BOOK && resultCode == BookActivity.RESULT_ADDED){
             adapter.clear()
             viewModel.getMyBooks(listener)
         }

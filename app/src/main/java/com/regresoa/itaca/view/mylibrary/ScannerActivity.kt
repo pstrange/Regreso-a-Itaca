@@ -13,6 +13,10 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView
  */
 class ScannerActivity : AppCompatActivity(), ZXingScannerView.ResultHandler{
 
+    companion object {
+        val ISBN = "ISBN"
+    }
+
     lateinit var mScannerView: ZXingScannerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,7 +40,7 @@ class ScannerActivity : AppCompatActivity(), ZXingScannerView.ResultHandler{
         Log.d("handleResult", result?.text)
         Log.d("handleResult",result?.barcodeFormat.toString())
         val bundle = Bundle().apply{
-            putString("ISBN", result?.text)
+            putString(ISBN, result?.text)
         }
         val intent = Intent()
         intent.putExtras(bundle)

@@ -44,7 +44,7 @@ class BookActivity : AppCompatActivity() {
         fillBook(book)
     }
 
-    fun fillBook(book: Book){
+    private fun fillBook(book: Book){
         book.volumeInfo?.let {
 
             it.imageLinks?.let {
@@ -57,23 +57,23 @@ class BookActivity : AppCompatActivity() {
             it.title?.let { text_title.text = it }
             it.sAuthors?.let { text_author.text = it }
 
-            var viewTemp = LayoutFieldView(this, "Editorial", "Sin información")
+            var viewTemp = LayoutFieldView(this, getString(R.string.book_label_publisher), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.publisher?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Fecha", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_publishing_date), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.publishedDate?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Categorias", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_categories), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.sCategories?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Descripcion", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_description), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.description?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Identificadores", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_identifiers), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.industryIdentifiers?.let {
                 val sb = StringBuilder()
@@ -82,11 +82,11 @@ class BookActivity : AppCompatActivity() {
                 viewTemp.setValue(sb.toString())
             }
 
-            viewTemp = LayoutFieldView(this, "Lenguaje", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_language), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.language?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Paginas", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_pages), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.pageCount?.let { viewTemp.setValue(it.toString()) }
         }

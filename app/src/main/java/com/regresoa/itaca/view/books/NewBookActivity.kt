@@ -122,14 +122,14 @@ class NewBookActivity : AppCompatActivity() {
         if(edit_title.text.toString().isNotEmpty()) {
             volumeInfo.title = edit_title.text.toString()
         } else {
-            inputlayout_title.error = "Campo requerido"
+            inputlayout_title.error = getString(R.string.book_error_required_field)
             return false
         }
 
         if(edit_authors.text.toString().isNotEmpty()) {
             volumeInfo.authors = edit_authors.text.toString().split(",")
         } else {
-            inputlayout_authors.error = "Campo requerido"
+            inputlayout_authors.error = getString(R.string.book_error_required_field)
             return false
         }
 
@@ -172,7 +172,7 @@ class NewBookActivity : AppCompatActivity() {
 
     private fun showInputDialog(){
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("URL de imagen")
+        builder.setTitle(getString(R.string.dialog_url))
         // Set up the input
         val input = EditText(this)
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
@@ -180,14 +180,16 @@ class NewBookActivity : AppCompatActivity() {
         input.setText(imageLinks?.thumbnail)
         builder.setView(input)
         // Set up the buttons
-        builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-            val imageUrl = input.text.toString()
-            imageLinks = ImageLinks(imageUrl, imageUrl)
-            Glide.with(this)
-                    .load(imageUrl)
-                    .into(image_cover)
+        builder.setPositiveButton(getString(R.string.dialog_accept),
+                DialogInterface.OnClickListener { dialog, which ->
+                    val imageUrl = input.text.toString()
+                    imageLinks = ImageLinks(imageUrl, imageUrl)
+                    Glide.with(this)
+                            .load(imageUrl)
+                            .into(image_cover)
         })
-        builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+        builder.setNegativeButton(getString(R.string.dialog_cancel),
+                DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
 
         builder.show()
     }

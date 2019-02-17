@@ -17,13 +17,15 @@ class LocalInfoDialog : DialogFragment(){
 
     companion object {
 
+        val JSON_INFO = "jsonInfo"
+
         fun newInstance() : LocalInfoDialog{
             return newInstance(LocalInfo())
         }
 
         fun newInstance(info: LocalInfo) : LocalInfoDialog{
             val bundle = Bundle().apply {
-                putString("jsonInfo", Gson().toJson(info))
+                putString(JSON_INFO, Gson().toJson(info))
             }
             val fragment = LocalInfoDialog()
             fragment.arguments = bundle
@@ -42,7 +44,7 @@ class LocalInfoDialog : DialogFragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        localInfo = Gson().fromJson(arguments!!.getString("jsonInfo"), LocalInfo::class.java)
+        localInfo = Gson().fromJson(arguments!!.getString(JSON_INFO), LocalInfo::class.java)
 
         text_stock.text = localInfo.stock.toString()
         button_less.setOnClickListener {
