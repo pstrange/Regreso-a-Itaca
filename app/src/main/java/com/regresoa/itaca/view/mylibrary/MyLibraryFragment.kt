@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.*
+import android.widget.Toast
 import com.google.gson.Gson
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.PermissionToken
@@ -71,8 +72,11 @@ class MyLibraryFragment : Fragment(), PermissionListener, SearchView.OnQueryText
             progress_lib.visibility = if(it!!) View.VISIBLE else View.GONE
         })
         viewModel.searchResults.observe(this, Observer {
-            adapter.clear()
-            adapter.addAll(it!!.items)
+            if(it!!.totalItems > 0){
+                adapter.clear()
+                adapter.addAll(it!!.items)
+            }else
+                Toast.makeText(activity, R.string.error_empty_results, Toast.LENGTH_SHORT).show()
         })
     }
 
