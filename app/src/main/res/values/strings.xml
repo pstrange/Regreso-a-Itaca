@@ -61,4 +61,6 @@
     <string name="settings_sort_title_za">Por título (z-a)</string>
     <string name="settings_sort_new">Los más recientes primer</string>
     <string name="settings_sort_old">Los más viejos primero</string>
+
+    <string name="error_empty_results">No hay resultados para tu búsqueda</string>
 </resources>
