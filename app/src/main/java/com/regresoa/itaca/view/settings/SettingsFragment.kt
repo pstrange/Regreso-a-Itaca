@@ -1,9 +1,12 @@
 package com.regresoa.itaca.view.settings
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.view.*
 import android.widget.CheckBox
+import com.regresoa.itaca.BuildConfig
 import com.regresoa.itaca.R
 import com.regresoa.itaca.utils.AppPreferences
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -91,5 +94,22 @@ class SettingsFragment : Fragment(){
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         inflater!!.inflate(R.menu.menu_settings, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId == R.id.action_appinfo){
+            val builder = AlertDialog.Builder(context!!)
+            builder.setTitle(R.string.app_name)
+            builder.setMessage(
+                    "Version: "+BuildConfig.VERSION_NAME+"-"+BuildConfig.VERSION_CODE+"\n"+
+                    "Type: "+BuildConfig.BUILD_TYPE+"\n"+
+                    "Database: "+BuildConfig.FIREBASE_DBNAME+"\n"+
+                    "Files: "+BuildConfig.FIREBASE_MEDIA)
+            builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+                dialog.dismiss()
+            }
+            builder.create().show()
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
