@@ -9,7 +9,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.storage.UploadTask
 import com.regresoa.itaca.model.entities.Book
 import com.regresoa.itaca.model.entities.SearchResult
 import com.regresoa.itaca.model.repositories.BooksRepository
@@ -56,7 +55,14 @@ class BooksViewModel(private var repository: BooksRepository) : ViewModel() {
     }
 
     fun removeBookFromMyLibrary(book: Book){
-        repository.getMyBooks().child(book.id).removeValue()
+        book.volumeInfo?.imageLinks?.let { imageLinks ->
+            if(imageLinks.thumbnail.contains("firebasestorage"))
+                deleteFile(book.id)
+
+            repository.getMyBooks().child(book.id).removeValue()
+        }?: run{
+            repository.getMyBooks().child(book.id).removeValue()
+        }
     }
 
     fun updateBookFromMyLibrary(book: Book){
