@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -42,11 +43,25 @@
                 app:cardBackgroundColor="@android:color/white"
                 app:cardCornerRadius="5dp">
 
-                <ImageView
-                    android:id="@+id/image_cover"
-                    android:layout_width="150dp"
-                    android:layout_height="210dp"
-                    android:scaleType="centerCrop"/>
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/image_cover"
+                        android:layout_width="150dp"
+                        android:layout_height="210dp"
+                        android:scaleType="centerCrop"/>
+
+                    <ProgressBar
+                        android:id="@+id/upload_loader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        tool:visibility="visible"/>
+
+                </FrameLayout>
 
             </android.support.v7.widget.CardView>
 
@@ -69,7 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:hint="Titulo"/>
+                        android:hint="@string/book_hint_title"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -84,7 +99,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
-                        android:hint="Autores (Separados por coma)"/>
+                        android:hint="@string/book_hint_authors"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -98,7 +113,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
-                        android:hint="Editorial"/>
+                        android:hint="@string/book_hint_publisher"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -112,7 +127,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="date"
-                        android:hint="Fecha (ej. aaaa-mm-dd)"/>
+                        android:hint="@string/book_hint_publishing_date"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -126,7 +141,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textLongMessage"
-                        android:hint="Categorias"/>
+                        android:hint="@string/book_hint_categories"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -140,7 +155,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textLongMessage"
-                        android:hint="Descripcion"/>
+                        android:hint="@string/book_hint_description"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -154,7 +169,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number|text"
-                        android:hint="ISBN (Separados por coma)"/>
+                        android:hint="@string/book_hint_identifiers"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -168,7 +183,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textCapWords"
-                        android:hint="Idioma"/>
+                        android:hint="@string/book_hint_language"/>
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -183,7 +198,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
-                        android:hint="Paginas"/>
+                        android:hint="@string/book_hint_pages"/>
 
                 </android.support.design.widget.TextInputLayout>
 

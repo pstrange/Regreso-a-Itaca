@@ -3,16 +3,18 @@ package com.regresoa.itaca.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.regresoa.itaca.model.entities.Book
 import com.regresoa.itaca.model.entities.SearchResult
 import com.regresoa.itaca.model.repositories.BooksRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 
 /**
  * Created by just_ on 27/01/2019.
@@ -22,8 +24,6 @@ class BooksViewModel(private var repository: BooksRepository) : ViewModel() {
     val isLoading = MutableLiveData<Boolean>()
     val error = MutableLiveData<String>()
     val searchResults = MutableLiveData<SearchResult>()
-    val myBooks = MutableLiveData<Book>()
-    val removedBook = MutableLiveData<Book>()
 
     fun searchISBN(isbn: String){
         repository.searchISBN(isbn)
@@ -46,11 +46,6 @@ class BooksViewModel(private var repository: BooksRepository) : ViewModel() {
         repository.getMyBooks().addChildEventListener(listener)
     }
 
-    fun searchMyBooks(value: String, listener: ChildEvents){
-        isLoading.postValue(true)
-        repository.getMyBooks().orderByChild("volumeInfo/industryIdentifiers/identifier").startAt(value).addChildEventListener(listener)
-    }
-
     fun removeMyBooksListener(listener: ChildEvents){
         repository.getMyBooks().removeEventListener(listener)
     }
@@ -60,11 +55,26 @@ class BooksViewModel(private var repository: BooksRepository) : ViewModel() {
     }
 
     fun removeBookFromMyLibrary(book: Book){
-        repository.getMyBooks().child(book.id).removeValue()
+        book.volumeInfo?.imageLinks?.let { imageLinks ->
+            if(imageLinks.thumbnail.contains("firebasestorage"))
+                deleteFile(book.id)
+
+            repository.getMyBooks().child(book.id).removeValue()
+        }?: run{
+            repository.getMyBooks().child(book.id).removeValue()
+        }
     }
 
     fun updateBookFromMyLibrary(book: Book){
         addBookToMyLibrary(book)
+    }
+
+    fun uploadFile(name:String, file: File): Task<Uri>{
+        return repository.uploadFile(name, file)
+    }
+
+    fun deleteFile(name: String): Task<Void> {
+        return repository.deleteFile(name)
     }
 
     open abstract class ChildEvents: ChildEventListener{

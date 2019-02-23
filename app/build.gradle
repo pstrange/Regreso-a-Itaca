@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android-extensions'
 
 def GOOGLE_API_URL = 'GOOGLE_API_URL'
 def API_KEY = 'API_KEY'
+def FIREBASE_DBNAME = 'FIREBASE_DBNAME'
+def FIREBASE_MEDIA_FOLDER = 'FIREBASE_MEDIA'
 
 android {
     compileSdkVersion 28
@@ -11,32 +13,73 @@ android {
         applicationId "com.regresoa.itaca"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
     dexOptions {
         preDexLibraries = false
     }
+    signingConfigs {
+        release {
+            Properties props = new Properties()
+            def propFile = new File('./signing.properties')
+            if (propFile.canRead()) {
+                props.load(new FileInputStream(propFile))
+
+                if (props != null &&
+                        props.containsKey('STORE_FILE') &&
+                        props.containsKey('STORE_PASSWORD') &&
+                        props.containsKey('KEY_ALIAS') &&
+                        props.containsKey('KEY_PASSWORD')) {
+                    android.signingConfigs.release.storeFile = file(props.getProperty('STORE_FILE'))
+                    android.signingConfigs.release.storePassword = props.getProperty('STORE_PASSWORD')
+                    android.signingConfigs.release.keyAlias = props.getProperty('KEY_ALIAS')
+                    android.signingConfigs.release.keyPassword = props.getProperty('KEY_PASSWORD')
+                } else {
+                    println 'signing.properties found but some entries are missing'
+                    android.buildTypes.release.signingConfig = null
+                }
+            } else {
+                println 'signing.properties not found'
+                android.buildTypes.release.signingConfig = null
+            }
+        }
+    }
     buildTypes {
         debug{
+            debuggable true
             minifyEnabled false
+            applicationIdSuffix ".debug"
+            resValue "string", "app_name", "[D] Itaca"
             buildConfigField "String", GOOGLE_API_URL, '"https://www.googleapis.com/books/v1/"'
             buildConfigField "String", API_KEY, '"AIzaSyDv1fp9RnRhR2dFIXdvybkJnY-gwowTIu4"'
-
+            buildConfigField "String", FIREBASE_DBNAME, '"mylibrary-test"'
+            buildConfigField "String", FIREBASE_MEDIA_FOLDER, '"bookcovers-test"'
         }
         release {
+            debuggable true
             minifyEnabled false
+            resValue "string", "app_name", "Itaca"
             buildConfigField "String", GOOGLE_API_URL, '"https://www.googleapis.com/books/v1/"'
             buildConfigField "String", API_KEY, '"AIzaSyDv1fp9RnRhR2dFIXdvybkJnY-gwowTIu4"'
+            buildConfigField "String", FIREBASE_DBNAME, '"mylibrary"'
+            buildConfigField "String", FIREBASE_MEDIA_FOLDER, '"bookcovers"'
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     dataBinding {
         enabled = true
     }
+    project.android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "itaca-${variant.name}-${variant.versionName}.apk"
+        }
+    }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -57,6 +100,8 @@ dependencies {
     implementation 'com.karumi:dexter:5.0.0'
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
+    implementation 'com.google.firebase:firebase-storage:16.0.1'
+    implementation 'id.zelory:compressor:2.1.0'
 
     compile project(':mandalalib')
 //    testImplementation 'junit:junit:4.12'

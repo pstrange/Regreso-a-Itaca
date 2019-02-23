@@ -1,5 +1,7 @@
 package com.regresoa.itaca.view.books
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -39,7 +41,10 @@ class BookActivity : AppCompatActivity() {
 
 
         book = Gson().fromJson(intent.getStringExtra(EXTRA_BOOK), Book::class.java)
+        fillBook(book)
+    }
 
+    private fun fillBook(book: Book){
         book.volumeInfo?.let {
 
             it.imageLinks?.let {
@@ -50,48 +55,41 @@ class BookActivity : AppCompatActivity() {
             }
 
             it.title?.let { text_title.text = it }
-            it.authors?.let { text_author.text = buildString(it) }
+            it.sAuthors?.let { text_author.text = it }
 
-            var viewTemp = LayoutFieldView(this, "Editorial", "Sin información")
+            var viewTemp = LayoutFieldView(this, getString(R.string.book_label_publisher), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.publisher?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Fecha", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_publishing_date), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.publishedDate?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Categorias", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_categories), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
-            it.categories?.let { viewTemp.setValue(buildString(it)) }
+            it.sCategories?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Descripcion", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_description), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.description?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Identificadores", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_identifiers), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.industryIdentifiers?.let {
                 val sb = StringBuilder()
-                it.map { it.type+" "+ it.identifier }
-                  .forEach { sb.append(if(sb.isNotEmpty()) "\n"+ it else it) }
+                it.map { it.identifier }
+                        .forEach { sb.append(if(sb.isNotEmpty()) "\n"+ it else it) }
                 viewTemp.setValue(sb.toString())
             }
 
-            viewTemp = LayoutFieldView(this, "Lenguaje", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_language), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.language?.let { viewTemp.setValue(it) }
 
-            viewTemp = LayoutFieldView(this, "Paginas", "Sin información")
+            viewTemp = LayoutFieldView(this, getString(R.string.book_label_pages), getString(R.string.book_label_noinfo))
             container_extra.addView(viewTemp)
             it.pageCount?.let { viewTemp.setValue(it.toString()) }
         }
-    }
-
-    private fun buildString(it: List<String>) : String{
-        val sb = StringBuilder()
-        for (item in it)
-            sb.append(if(sb.isNotEmpty()) ", "+item else item)
-        return sb.toString()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -126,12 +124,28 @@ class BookActivity : AppCompatActivity() {
                     }
                 })
             }
+            R.id.action_edit -> {
+                val intent = Intent(this, NewBookActivity::class.java)
+                intent.putExtra(NewBookActivity.EDIT_BOOK, Gson().toJson(book))
+                startActivityForResult(intent, 1980)
+            }
             R.id.action_remove -> {
                 viewModel.removeBookFromMyLibrary(book)
                 finish()
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 1980 && resultCode == Activity.RESULT_OK){
+            container_extra.removeAllViews()
+            book = Gson().fromJson(data?.getStringExtra(NewBookActivity.UPDATE_BOOK), Book::class.java)
+            fillBook(book)
+            viewModel.updateBookFromMyLibrary(book)
+            setResult(RESULT_ADDED)
+        }
     }
 
     private fun showDialogInfo(listener: LocalInfoDialog.OnLocalInfoEdit){
