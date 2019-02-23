@@ -15,6 +15,7 @@ import com.regresoa.itaca.model.entities.SearchResult
 import com.regresoa.itaca.model.repositories.BooksRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 
 /**
  * Created by just_ on 27/01/2019.
@@ -62,8 +63,8 @@ class BooksViewModel(private var repository: BooksRepository) : ViewModel() {
         addBookToMyLibrary(book)
     }
 
-    fun uploadFile(name:String, path: String): Task<Uri>{
-        return repository.uploadFile(name, path)
+    fun uploadFile(name:String, file: File): Task<Uri>{
+        return repository.uploadFile(name, file)
     }
 
     fun deleteFile(name: String): Task<Void> {

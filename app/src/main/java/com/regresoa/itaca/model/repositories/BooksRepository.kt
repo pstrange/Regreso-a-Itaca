@@ -41,9 +41,9 @@ class BooksRepository{
         return myLibrary
     }
 
-    fun uploadFile(name: String, path: String): Task<Uri>{
+    fun uploadFile(name: String, file: File): Task<Uri>{
         val ref = myFiles.child(name)
-        return ref.putFile(Uri.fromFile(File(path))).continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+        return ref.putFile(Uri.fromFile(file)).continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
             if (!task.isSuccessful) {
                 task.exception?.let {
                     throw it

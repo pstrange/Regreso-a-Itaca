@@ -3,6 +3,7 @@ package com.regresoa.itaca.view.books
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -24,7 +25,9 @@ import com.regresoa.itaca.R
 import com.regresoa.itaca.model.entities.*
 import com.regresoa.itaca.model.repositories.BooksRepository
 import com.regresoa.itaca.viewmodel.BooksViewModel
+import id.zelory.compressor.Compressor
 import kotlinx.android.synthetic.main.activity_new_book.*
+import java.io.File
 import java.security.MessageDigest
 import java.util.*
 
@@ -232,7 +235,11 @@ class NewBookActivity : AppCompatActivity(), PermissionListener{
 
     private fun uploadFileFromUri(data: Uri){
         val path = RealPathUtil.getRealPathFromURI(this, data)
-        viewModel.uploadFile(book.id, path!!).addOnCompleteListener { task ->
+        val minFile = Compressor(this)
+                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+                .setDestinationDirectoryPath(cacheDir.path)
+                .compressToFile(File(path))
+        viewModel.uploadFile(book.id, minFile).addOnCompleteListener { task ->
             upload_loader.visibility = View.GONE
             if (task.isSuccessful) {
                 val downloadUri = task.result
