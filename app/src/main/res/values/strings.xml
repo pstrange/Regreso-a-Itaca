@@ -31,6 +31,10 @@
     <string name="permission_message">El permiso de cámara es necesario para utilizar el escaner de ISBN</string>
     <string name="permission_accept">Aceptar</string>
 
+    <string name="permission_read_title">Permiso de lectura</string>
+    <string name="permission_read_message">El permiso de lectura es necesario para seleccionar archivos</string>
+    <string name="permission_read_accept">Aceptar</string>
+
     <string name="book_hint_title">Título</string>
     <string name="book_hint_authors">Autor(es) (Separados por coma)</string>
     <string name="book_hint_publisher">Editorial</string>
@@ -62,4 +66,5 @@
     <string name="settings_sort_old">Los más viejos primero</string>
 
     <string name="error_empty_results">No hay resultados para tu búsqueda</string>
+    <string name="error_upload">Ocurrio un error al subir el archivo</string>
 </resources>
