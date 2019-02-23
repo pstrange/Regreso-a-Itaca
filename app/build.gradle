@@ -52,6 +52,7 @@ android {
             debuggable true
             minifyEnabled false
             applicationIdSuffix ".debug"
+            resValue "string", "app_name", "[D] Itaca"
             buildConfigField "String", GOOGLE_API_URL, '"https://www.googleapis.com/books/v1/"'
             buildConfigField "String", API_KEY, '"AIzaSyDv1fp9RnRhR2dFIXdvybkJnY-gwowTIu4"'
             buildConfigField "String", FIREBASE_DBNAME, '"mylibrary-test"'
@@ -60,6 +61,7 @@ android {
         release {
             debuggable true
             minifyEnabled false
+            resValue "string", "app_name", "Itaca"
             buildConfigField "String", GOOGLE_API_URL, '"https://www.googleapis.com/books/v1/"'
             buildConfigField "String", API_KEY, '"AIzaSyDv1fp9RnRhR2dFIXdvybkJnY-gwowTIu4"'
             buildConfigField "String", FIREBASE_DBNAME, '"mylibrary"'
@@ -71,7 +73,13 @@ android {
     dataBinding {
         enabled = true
     }
+    project.android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "itaca-${variant.name}-${variant.versionName}.apk"
+        }
+    }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">RegresoaItaca</string>
     <string name="action_search">Buscar</string>
     <string name="action_scan">Scaner</string>
     <string name="action_add">Agregar</string>
