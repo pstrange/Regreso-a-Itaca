@@ -3,10 +3,13 @@ package com.regresoa.itaca.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.storage.UploadTask
 import com.regresoa.itaca.model.entities.Book
 import com.regresoa.itaca.model.entities.SearchResult
 import com.regresoa.itaca.model.repositories.BooksRepository
@@ -57,6 +60,14 @@ class BooksViewModel(private var repository: BooksRepository) : ViewModel() {
 
     fun updateBookFromMyLibrary(book: Book){
         addBookToMyLibrary(book)
+    }
+
+    fun uploadFile(name:String, path: String): Task<Uri>{
+        return repository.uploadFile(name, path)
+    }
+
+    fun deleteFile(name: String): Task<Void> {
+        return repository.deleteFile(name)
     }
 
     open abstract class ChildEvents: ChildEventListener{

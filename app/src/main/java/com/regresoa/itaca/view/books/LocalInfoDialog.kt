@@ -48,7 +48,7 @@ class LocalInfoDialog : DialogFragment(){
 
         text_stock.text = localInfo.stock.toString()
         button_less.setOnClickListener {
-            if(localInfo.stock > 1){
+            if(localInfo.stock > 0){
                 localInfo.stock -= 1
                 text_stock.text = localInfo.stock.toString()
             }

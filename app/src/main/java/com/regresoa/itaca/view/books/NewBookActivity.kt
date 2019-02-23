@@ -1,34 +1,43 @@
 package com.regresoa.itaca.view.books
 
+import android.Manifest
 import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.google.gson.Gson
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
+import com.karumi.dexter.listener.single.PermissionListener
+import com.mandala.lib.utils.RealPathUtil
 import com.regresoa.itaca.R
+import com.regresoa.itaca.model.entities.*
 import com.regresoa.itaca.model.repositories.BooksRepository
 import com.regresoa.itaca.viewmodel.BooksViewModel
 import kotlinx.android.synthetic.main.activity_new_book.*
 import java.security.MessageDigest
 import java.util.*
-import android.content.DialogInterface
-import android.content.Intent
-import android.support.v7.app.AlertDialog
-import android.text.InputType
-import android.widget.EditText
-import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import com.regresoa.itaca.model.entities.*
 
 
 /**
  * Created by just_ on 10/02/2019.
  */
-class NewBookActivity : AppCompatActivity() {
+class NewBookActivity : AppCompatActivity(), PermissionListener{
 
     private lateinit var book: Book
     private var imageLinks: ImageLinks? = null
     private val viewModel: BooksViewModel = BooksViewModel(BooksRepository())
+    private lateinit var dialogPermissionListener: PermissionListener
 
     companion object {
         val EDIT_BOOK = "EDIT_BOOK"
@@ -54,8 +63,19 @@ class NewBookActivity : AppCompatActivity() {
             book = Book(hashKey, hashKey)
         }
 
+        dialogPermissionListener = DialogOnDeniedPermissionListener.Builder
+                .withContext(this)
+                .withTitle(getString(R.string.permission_read_title))
+                .withMessage(getString(R.string.permission_read_message))
+                .withButtonText(getString(R.string.permission_read_accept))
+                .withIcon(R.drawable.ic_action_info)
+                .build()!!
+
         image_cover.setOnClickListener {
-            showInputDialog()
+            Dexter.withActivity(this)
+                  .withPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                  .withListener(this)
+                  .check()
         }
     }
 
@@ -170,28 +190,60 @@ class NewBookActivity : AppCompatActivity() {
         return true
     }
 
-    private fun showInputDialog(){
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(getString(R.string.dialog_url))
-        // Set up the input
-        val input = EditText(this)
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.inputType = InputType.TYPE_TEXT_VARIATION_URI
-        input.setText(imageLinks?.thumbnail)
-        builder.setView(input)
-        // Set up the buttons
-        builder.setPositiveButton(getString(R.string.dialog_accept),
-                DialogInterface.OnClickListener { dialog, which ->
-                    val imageUrl = input.text.toString()
-                    imageLinks = ImageLinks(imageUrl, imageUrl)
-                    Glide.with(this)
-                            .load(imageUrl)
-                            .into(image_cover)
-        })
-        builder.setNegativeButton(getString(R.string.dialog_cancel),
-                DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+    override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1900)
+    }
 
-        builder.show()
+    override fun onPermissionRationaleShouldBeShown(permission: PermissionRequest?, token: PermissionToken?) {
+        dialogPermissionListener.onPermissionRationaleShouldBeShown(permission, token)
+    }
+
+    override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+        dialogPermissionListener.onPermissionDenied(response)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1900 && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                upload_loader.visibility = View.VISIBLE
+                deleteAndUploadIfNeccessary(uri)
+            }
+        }
+    }
+
+    private fun deleteAndUploadIfNeccessary(data: Uri){
+        imageLinks?.let { links ->
+            if(links.thumbnail.contains("firebasestorage")) {
+                viewModel.deleteFile(book.id).addOnCompleteListener {
+                    uploadFileFromUri(data)
+                }.addOnFailureListener {
+                    imageLinks = ImageLinks("", "")
+                    upload_loader.visibility = View.GONE
+                    Toast.makeText(this, R.string.error_upload, Toast.LENGTH_SHORT).show()
+                }
+            }
+            else uploadFileFromUri(data)
+        }?: run{ uploadFileFromUri(data) }
+    }
+
+    private fun uploadFileFromUri(data: Uri){
+        val path = RealPathUtil.getRealPathFromURI(this, data)
+        viewModel.uploadFile(book.id, path!!).addOnCompleteListener { task ->
+            upload_loader.visibility = View.GONE
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                imageLinks = ImageLinks(downloadUri.toString(), downloadUri.toString())
+                Glide.with(this)
+                        .load(downloadUri)
+                        .into(image_cover)
+            } else {
+                Toast.makeText(this, R.string.error_upload, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun showDialogInfo(listener: LocalInfoDialog.OnLocalInfoEdit){
