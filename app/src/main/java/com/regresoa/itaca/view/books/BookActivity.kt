@@ -155,16 +155,8 @@ class BookActivity : AppCompatActivity() {
 
     private fun bookToHtml() : Spanned{
         val builder = StringBuilder()
-        builder.append("<b>Título: "+book.volumeInfo?.title+"</b><br>")
-        builder.append("<i>Autor(es): "+book.volumeInfo?.sAuthors+"</i><br>")
-        builder.append("Editorial: "+book.volumeInfo?.publisher+"<br>")
-        book.volumeInfo?.imageLinks?.let {
-            builder.append("Imagen: "+it.thumbnail+"<br>")
-        }
-        builder.append("<p>Descripción: "+book.volumeInfo?.description+"</p>")
-        book.localInfo?.let {
-            builder.append("<p>Precio: $"+it.price+"</p>")
-        }
+        builder.append("<b>"+book.volumeInfo?.title+":</b><br>")
+        builder.append("http://regreso-a-itaca.firebaseapp.com/books/"+book.id+"</i><br>")
         return fromHtml(builder.toString())
     }
 
