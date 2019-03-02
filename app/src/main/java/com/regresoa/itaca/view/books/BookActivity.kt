@@ -16,6 +16,14 @@ import com.regresoa.itaca.view.widgets.LayoutFieldView
 import com.regresoa.itaca.viewmodel.BooksViewModel
 import kotlinx.android.synthetic.main.activity_book.*
 import java.util.*
+import android.text.Html
+import android.os.Build
+import android.support.v4.app.ShareCompat
+import android.text.Spanned
+
+
+
+
 
 /**
  * Created by just_ on 10/02/2019.
@@ -115,6 +123,14 @@ class BookActivity : AppCompatActivity() {
                     }
                 })
             }
+            R.id.action_share -> {
+                ShareCompat.IntentBuilder
+                        .from(this)
+                        .setText(bookToHtml().toString())
+                        .setType("text/plain")
+                        .setChooserTitle("Compartir")
+                        .startChooser()
+            }
             R.id.action_info -> {
                 showDialogInfo(object : LocalInfoDialog.OnLocalInfoEdit{
                     override fun onLocalInfoSave(localInfo: LocalInfo) {
@@ -135,6 +151,21 @@ class BookActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun bookToHtml() : Spanned{
+        val builder = StringBuilder()
+        builder.append("<b>"+book.volumeInfo?.title+" de "+book.volumeInfo?.sAuthors+":</b><br>")
+        builder.append("http://regreso-a-itaca.firebaseapp.com/books/"+book.id+"</i><br>")
+        return fromHtml(builder.toString())
+    }
+
+    private fun fromHtml(html: String): Spanned {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY)
+        } else {
+            Html.fromHtml(html)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
