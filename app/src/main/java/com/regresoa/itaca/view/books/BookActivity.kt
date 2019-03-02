@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_book.*
 import java.util.*
 import android.text.Html
 import android.os.Build
+import android.support.v4.app.ShareCompat
 import android.text.Spanned
 
 
@@ -123,10 +124,12 @@ class BookActivity : AppCompatActivity() {
                 })
             }
             R.id.action_share -> {
-                val sharingIntent = Intent(Intent.ACTION_SEND)
-                sharingIntent.type = "text/html"
-                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, bookToHtml())
-                startActivity(Intent.createChooser(sharingIntent, "Share using"))
+                ShareCompat.IntentBuilder
+                        .from(this)
+                        .setText(bookToHtml().toString())
+                        .setType("text/plain")
+                        .setChooserTitle("Compartir")
+                        .startChooser()
             }
             R.id.action_info -> {
                 showDialogInfo(object : LocalInfoDialog.OnLocalInfoEdit{
@@ -152,12 +155,15 @@ class BookActivity : AppCompatActivity() {
 
     private fun bookToHtml() : Spanned{
         val builder = StringBuilder()
-        builder.append("<b>"+book.volumeInfo?.title+"</b></br>")
-        builder.append("<i>"+book.volumeInfo?.sAuthors+"</i></br>")
-        builder.append(book.volumeInfo?.publisher+"</br>")
-        builder.append("<p>"+book.volumeInfo?.description+"</p></br>")
+        builder.append("<b>Título: "+book.volumeInfo?.title+"</b><br>")
+        builder.append("<i>Autor(es): "+book.volumeInfo?.sAuthors+"</i><br>")
+        builder.append("Editorial: "+book.volumeInfo?.publisher+"<br>")
+        book.volumeInfo?.imageLinks?.let {
+            builder.append("Imagen: "+it.thumbnail+"<br>")
+        }
+        builder.append("<p>Descripción: "+book.volumeInfo?.description+"</p>")
         book.localInfo?.let {
-            builder.append("<p><b>$"+it.price+"</b></p></br>")
+            builder.append("<p>Precio: $"+it.price+"</p>")
         }
         return fromHtml(builder.toString())
     }
