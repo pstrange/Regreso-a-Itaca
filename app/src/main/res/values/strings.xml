@@ -4,6 +4,7 @@
     <string name="action_add">Agregar</string>
     <string name="action_save">Guardar</string>
     <string name="action_settings">Configuración</string>
+    <string name="action_share">Compartir</string>
     <string name="action_info">Información</string>
     <string name="action_edit">Editar</string>
     <string name="action_delete">Eliminar</string>

@@ -4,6 +4,13 @@
     tools:context="com.regresoa.itaca.view.home.HomeActivity">
 
     <item
+        android:id="@+id/action_share"
+        android:orderInCategory="1"
+        android:title="@string/action_share"
+        android:icon="@drawable/ic_action_share"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_info"
         android:orderInCategory="1"
         android:title="@string/action_info"
